@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>建造一个航空公司 · 官方站</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#070b14;--panel:#131d33;--panel2:#0e1526;--l:#22304d;--t:#e9eef8;--d:#8394b3;--a:#4a9eff;--a2:#ffb020;--ok:#5ddc8a}
+html,body{min-height:100%;font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:radial-gradient(1200px 700px at 50% -10%,#16213c 0%,#070b14 65%);color:var(--t)}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+header{border-bottom:1px solid rgba(255,255,255,.07);background:rgba(10,16,30,.7);backdrop-filter:blur(10px);position:sticky;top:0;z-index:20}
+.nav{display:flex;align-items:center;gap:18px;padding:14px 0}
+.logo{font-size:26px}
+.brand{font-weight:800;font-size:17px}
+.brand small{display:block;font-size:10.5px;color:var(--d);letter-spacing:3px;font-weight:600}
+.navlinks{display:flex;gap:16px;margin-left:auto;font-size:13.5px;color:#9fb2d0;flex-wrap:wrap}
+.navlinks a:hover{color:#fff}
+.hero{padding:58px 0 34px;text-align:center}
+.hero h1{font-size:44px;line-height:1.15;background:linear-gradient(180deg,#fff,#8cb6ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:14px}
+.hero p{color:#9fb2d0;font-size:15px;line-height:1.9;max-width:720px;margin:0 auto 26px}
+.badges{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:26px}
+.badge{font-size:12px;padding:6px 12px;border-radius:99px;border:1px solid rgba(74,158,255,.35);background:rgba(74,158,255,.08);color:#8cc0ff}
+.badge.gold{border-color:rgba(255,176,32,.4);background:rgba(255,176,32,.1);color:var(--a2)}
+.badge.green{border-color:rgba(93,220,138,.4);background:rgba(93,220,138,.1);color:var(--ok)}
+.cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn{font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;border-radius:12px;border:1px solid var(--l);background:#16203a;color:var(--t);padding:13px 22px;transition:.16s;display:inline-flex;align-items:center;gap:8px;justify-content:center}
+.btn:hover{background:#1d2a4a;border-color:#2f4370}
+.btn.pri{background:linear-gradient(180deg,#4a9eff,#2f7de0);border:none;color:#fff}
+.btn.pri:hover{filter:brightness(1.08)}
+.btn.gold{background:linear-gradient(180deg,#ffb020,#e88a00);border:none;color:#1a1000}
+section{padding:44px 0}
+h2{font-size:24px;margin-bottom:8px}
+.lead{color:var(--d);font-size:13.5px;margin-bottom:22px;line-height:1.8}
+.grid{display:grid;gap:14px}
+.grid.c3{grid-template-columns:repeat(3,1fr)}
+.grid.c2{grid-template-columns:repeat(2,1fr)}
+@media(max-width:900px){.grid.c3,.grid.c2{grid-template-columns:1fr}.hero h1{font-size:32px}}
+.card{background:linear-gradient(180deg,var(--panel),var(--panel2));border:1px solid var(--l);border-radius:16px;padding:18px}
+.card h3{font-size:15px;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.card p{font-size:12.8px;color:#93a4c2;line-height:1.8}
+.frame{position:relative;border:1px solid var(--l);border-radius:16px;overflow:hidden;background:#0a0e18;height:620px}
+.frame iframe{width:100%;height:100%;border:0;display:block}
+@media(max-width:900px){.frame{height:460px}}
+.frame-bar{display:flex;align-items:center;gap:8px;padding:8px 12px;background:#0e1526;border-bottom:1px solid var(--l);font-size:12px;color:var(--d)}
+.dot{width:9px;height:9px;border-radius:50%}
+.codebox{background:#080c14;border:1px solid var(--l);border-radius:16px;overflow:hidden}
+.codebar{display:flex;align-items:center;gap:10px;padding:10px 14px;background:#0e1526;border-bottom:1px solid var(--l);font-size:12.5px;color:var(--d);flex-wrap:wrap}
+.codebar .sp{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
+.codebar .btn{padding:7px 12px;font-size:12px;border-radius:8px}
+pre{margin:0;padding:16px;max-height:420px;overflow:auto;font-family:ui-monospace,Consolas,monospace;font-size:12px;line-height:1.6;color:#c8d6ee;white-space:pre;tab-size:2}
+pre::-webkit-scrollbar{width:10px;height:10px}pre::-webkit-scrollbar-thumb{background:#22304d;border-radius:5px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{text-align:left;padding:11px 12px;border-bottom:1px solid rgba(255,255,255,.06);vertical-align:top}
+th{color:var(--d);font-size:12px;font-weight:700;letter-spacing:.5px}
+tr:hover td{background:rgba(74,158,255,.04)}
+.tag{display:inline-block;font-size:11px;padding:2px 8px;border-radius:6px;background:rgba(74,158,255,.14);color:#8cc0ff;border:1px solid rgba(74,158,255,.3)}
+.cur{display:inline-block;font-size:11px;padding:2px 8px;border-radius:6px;background:rgba(93,220,138,.15);color:var(--ok);border:1px solid rgba(93,220,138,.4)}
+.verlink{color:#8cc0ff;cursor:pointer}
+.verlink:hover{text-decoration:underline}
+.empty{color:var(--d);font-size:13px;padding:18px;text-align:center;border:1px dashed var(--l);border-radius:12px}
+.toast{position:fixed;left:50%;bottom:34px;transform:translate(-50%,16px);background:#141c2e;border:1px solid rgba(255,176,32,.55);color:#ffd27a;padding:12px 22px;border-radius:12px;font-size:13.5px;font-weight:700;opacity:0;pointer-events:none;transition:.25s;z-index:99}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+footer{border-top:1px solid rgba(255,255,255,.07);padding:26px 0 40px;color:#6f7d95;font-size:12.5px;text-align:center;line-height:1.9}
+kbd{background:#16203a;border:1px solid var(--l);border-radius:5px;padding:1px 6px;font-size:11.5px;font-family:inherit;color:#cfe0ff}
+</style>
+</head>
+<body>
+<header><div class="wrap nav">
+  <span class="logo">✈️</span>
+  <div class="brand">建造一个航空公司<small>AIRLINE TYCOON</small></div>
+  <nav class="navlinks">
+    <a href="#play">在线试玩</a>
+    <a href="#source">源代码</a>
+    <a href="#versions">版本历史</a>
+    <a href="#features">功能</a>
+    <a href="./建造一个航空公司.html" class="verlink">直接打开游戏 →</a>
+  </nav>
+</div></header>
+
+<div class="wrap">
+  <div class="hero">
+    <h1>建造一个航空公司</h1>
+    <p>一款纯 HTML 的航空经营模拟游戏：买飞机、开航线、涂装、机上服务、社交平板……<br>全部代码开源，单文件即可运行，无需安装、无需联网。</p>
+    <div class="badges">
+      <span class="badge green">开源 · MIT 风格自由使用</span>
+      <span class="badge">单文件 HTML</span>
+      <span class="badge">离线可玩</span>
+      <span class="badge gold" id="heroVer">最新版本：读取中…</span>
+    </div>
+    <div class="cta">
+      <a class="btn pri" href="./建造一个航空公司.html">▶ 开始游戏</a>
+      <a class="btn" href="#source">💻 查看源代码</a>
+      <a class="btn gold" onclick="copySource()">📋 一键复制源码</a>
+    </div>
+  </div>
+
+  <section id="play">
+    <h2>在线试玩</h2>
+    <p class="lead">下面是游戏本体，点右上角「全屏游玩」可获得完整体验。数据保存在当前页面内存中，刷新即重置。</p>
+    <div class="frame">
+      <div class="frame-bar"><span class="dot" style="background:#ff5f57"></span><span class="dot" style="background:#febc2e"></span><span class="dot" style="background:#28c840"></span><span style="margin-left:8px">建造一个航空公司.html</span><span style="margin-left:auto"><a class="verlink" href="./建造一个航空公司.html">在新标签页打开</a></span></div>
+      <iframe id="gameFrame" src="./建造一个航空公司.html" title="游戏预览" loading="lazy"></iframe>
+    </div>
+    <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap">
+      <button class="btn" onclick="fullscreen()">⛶ 全屏游玩</button>
+      <button class="btn" onclick="reloadFrame()">↻ 重新加载</button>
+      <a class="btn" href="./建造一个航空公司.html" download>⤓ 下载游戏</a>
+    </div>
+  </section>
+
+  <section id="source">
+    <h2>源代码（开源）</h2>
+    <p class="lead">下面是游戏的最新完整源码，可直接复制或下载。你可以自由修改、分发，只需保留出处。</p>
+    <div class="codebox">
+      <div class="codebar">
+        <span id="srcName">建造一个航空公司.html</span>
+        <span id="srcMeta" style="color:#5f7291"></span>
+        <span class="sp">
+          <button class="btn" onclick="copySource()">📋 复制全部源码</button>
+          <button class="btn" onclick="downloadSource()">⤓ 下载</button>
+          <a class="btn" href="./建造一个航空公司.html" target="_blank">↗ 新窗口运行</a>
+        </span>
+      </div>
+      <pre id="srcCode">正在读取源码…</pre>
+    </div>
+    <p class="lead" style="margin-top:14px">提示：如果浏览器提示「无法读取本地文件」，请用本地服务器打开本站（例如在该目录执行 <kbd>python -m http.server</kbd> 后访问 <kbd>http://localhost:8000/官网.html</kbd>），或直接点击「下载」。</p>
+  </section>
+
+  <section id="versions">
+    <h2>版本历史</h2>
+    <p class="lead">每次更新后官网都会自动记录一份源码快照（存放在 <kbd>versions/</kbd> 目录），点击版本名即可下载该版本源码。</p>
+    <div class="card" style="padding:0;overflow:hidden">
+      <table id="verTable">
+        <thead><tr><th style="width:110px">版本</th><th style="width:150px">时间</th><th>更新内容</th><th style="width:110px">源码</th></tr></thead>
+        <tbody id="verBody"><tr><td colspan="4" class="empty">正在读取版本列表…</td></tr></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="features">
+    <h2>功能一览</h2>
+    <div class="grid c3">
+      <div class="card"><h3>✈️ 22+ 机型</h3><p>DC-3/4/6、CRJ-900、E175、A220、A318~A321(ceo/neo/LR/XLR)、737 全系(含 MAX)、757/767、787-8/9/10、A330-200/300/neo。</p></div>
+      <div class="card"><h3>🛒 批量购买</h3><p>开启批量模式后可混搭多款机型（如 1 架 DC-3 + 2 架 DC-6），订单清单实时合计、一次结算。</p></div>
+      <div class="card"><h3>🎨 涂装车间</h3><p>实时飞机预览，机身/机翼/尾翼/玻璃/拉花全部可调，还能直接在飞机上画花纹、贴贴纸。</p></div>
+      <div class="card"><h3>💺 机库改造</h3><p>座位布局图（含排号、服务区、舱门、吧台）、腿部空间调节、座椅等级升级。</p></div>
+      <div class="card"><h3>🍽️ 机上服务</h3><p>四阶段餐饮升级：小零食 → 简易餐盒 → 标准热餐 → 热主菜+甜品+酒水，提升航班收入。</p></div>
+      <div class="card"><h3>📱 平板与社交</h3><p>飞友圈、今日机票定价、航图、气象、设置；5 秒彩条开机动画，AI 飞友自动回复与点赞。</p></div>
+      <div class="card"><h3>🎓 新手教程</h3><p>机长分步带练：命名、选枢纽、联盟、买飞机、等交付，一次走完全流程。</p></div>
+      <div class="card"><h3>🌍 全球地图</h3><p>120+ 机场、弧形航线、航程圈、机场选择与航班追踪。</p></div>
+      <div class="card"><h3>🛠️ 管理员模式</h3><p>无限金钱、跳过时间、空难系统、ATC 空中管制等测试工具。</p></div>
+    </div>
+  </section>
+</div>
+
+<footer>建造一个航空公司 · Airline Tycoon — 开源单文件 HTML 游戏<br>本页面由本地脚本自动生成 · <span id="footVer"></span></footer>
+<div class="toast" id="toast"></div>
+
+<script>
+function showToast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(window.__tt);window.__tt=setTimeout(()=>t.classList.remove('show'),2200)}
+let SRC='';
+function reloadFrame(){const f=document.getElementById('gameFrame');f.src='./建造一个航空公司.html?t='+Date.now()}
+function fullscreen(){const f=document.getElementById('gameFrame');const box=f.parentElement;if(box.requestFullscreen)box.requestFullscreen();else if(f.requestFullscreen)f.requestFullscreen();else showToast('当前浏览器不支持全屏')}
+async function copySource(){
+  if(!SRC){showToast('源码尚未载入');return}
+  try{await navigator.clipboard.writeText(SRC);showToast('已复制全部源码（'+SRC.length.toLocaleString()+' 字符）');}
+  catch(e){
+    const ta=document.createElement('textarea');ta.value=SRC;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();
+    try{document.execCommand('copy');showToast('已复制全部源码')}catch(_){showToast('复制失败，请手动全选复制')}
+    document.body.removeChild(ta);
+  }
+}
+function downloadSource(){
+  if(!SRC){showToast('源码尚未载入');return}
+  const b=new Blob([SRC],{type:'text/html;charset=utf-8'}),a=document.createElement('a');
+  a.href=URL.createObjectURL(b);a.download='建造一个航空公司.html';a.click();URL.revokeObjectURL(a.href);
+}
+async function loadSource(){
+  try{
+    const r=await fetch('./建造一个航空公司.html?raw='+Date.now());
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    SRC=await r.text();
+    document.getElementById('srcCode').textContent=SRC;
+    document.getElementById('srcMeta').textContent='· '+(SRC.length/1024).toFixed(1)+' KB · '+SRC.split('\n').length+' 行';
+  }catch(e){
+    document.getElementById('srcCode').textContent='无法读取源码，请参考下方说明。';
+    document.getElementById('srcMeta').textContent='· 读取失败';
+  }
+}
+async function loadVersions(){
+  const body=document.getElementById('verBody');
+  try{
+    const r=await fetch('./versions.json?t='+Date.now());
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    const raw=await r.json();
+    const list=Array.isArray(raw)?raw:(raw?[raw]:[]);
+    if(!list.length)throw new Error('empty');
+    body.innerHTML=list.map((v,i)=>`<tr><td>${i===0?'<span class="cur">最新</span> ':''}<b>${v.ver||'—'}</b></td><td style="color:#8fa1c0">${esc(v.date||'')}</td><td>${esc(v.summary||'')}</td><td>${v.file?`<a class="verlink" href="${esc(v.file)}" download>下载</a>`:'—'}</td></tr>`).join('');
+    const latest=list[0];
+    document.getElementById('heroVer').textContent='最新版本：'+(latest.ver||'—');
+    document.getElementById('footVer').textContent='当前版本 '+(latest.ver||'—')+' · '+(latest.date||'');
+  }catch(e){
+    body.innerHTML='<tr><td colspan="4" class="empty">暂未生成版本快照<br>运行一次「更新记录」脚本后即可看到历史版本</td></tr>';
+  }
+}
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();const el=document.querySelector(a.getAttribute('href'));if(el)el.scrollIntoView({behavior:'smooth',block:'start'})}));
+loadSource();loadVersions();
+</script>
+</body>
+</html>
